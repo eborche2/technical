@@ -86,11 +86,8 @@ class PolicyTestCase(TestCase):
 
     def test_results(self):
         for i, test in enumerate(test_dictionary):
-            if i != 3:
-                continue
             result = self.client.post("/unstructured", json.dumps({"policy": test["payload"]}), content_type="application/json")
             json_result = result.json()
-            breakpoint()
             for cat in json_result:
                 self.assertEqual(json_result[cat], test["result"][cat])
 
