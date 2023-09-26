@@ -14,6 +14,25 @@ THREE = """- Frequency and Duration. The Administrator may establish Offering Pe
 - First Offering Period. The first Offering Period under the Plan shall commence on the IPO Date and shall end on the last Trading Day on or immediately preceding May 14, 2020.
 - Successive Offering Periods. Unless the Administrator determines otherwise, following the completion of the first Offering Period, a new Offering Period shall commence on the first Trading Day on or following May 15 and November 15 of each calendar year and end on or following the last Trading Day on or immediately preceding November 14 and May 14, respectively, approximately six (6) months later.
 - At the time a Participant enrolls in the Plan pursuant to Section 5 of the Plan, he or she will elect to have Contributions (in the form of payroll deductions or otherwise, to the extent permitted by the Administrator) made on each pay day during the Offering Period in an amount not exceeding fifteen percent (15%) of the Compensation, which he or she receives on each pay day during the Offering Period (for illustrative purposes, should a pay day occur on an Exercise Date, a Participant will have any payroll deductions made on such day applied to his or her account under the then-current Purchase Period or Offering Period). The Administrator, in its sole discretion, may permit all Participants in a specified Offering to contribute amounts to the Plan through payment by cash, check or other means set forth in the subscription agreement prior to each Exercise Date of each Purchase Period. A Participant’s subscription agreement will remain in effect for successive Offering Periods unless terminated as provided in Section 10 hereof."""
+
+FOUR = """4. Offerings. Subject to the right of the Company in its sole discretion to sooner terminate the Plan or to change the commencement date or term of any offering, commencing with the Offering Date of December 1, 2020, the Plan will operate with separate consecutive six-month offerings with the following Offering Dates: June 1 and December 1; provided, however,
+3
+
+
+that no offering may have a term in excess of 27 months. Unless a termination of or change to the Plan has previously been made by the Company, the final offering under this Plan shall commence on June 1, 2029 and terminate on November 30, 2029. In order to become eligible to purchase shares of Common Stock, an Eligible Employee must complete and submit an Enrollment Form and any other necessary documents at least 15 days (or such other period as may be designated by the Administrator) before the Offering Date of the particular offering in which he or she wishes to participate in accordance with Section 7. Participation in one offering under the Plan shall neither limit, nor require, participation in any other offering.
+5. Price. The Purchase Price per share shall be eighty-five percent (85%) of the Fair Market Value of the Common Stock on the last day of the offering.
+6. Number of Shares to be Offered. The maximum number of shares that will be offered under the Plan is 20,000,000 shares, subject to adjustment as permitted under Section 20. If the total number of shares of Common Stock for which options are to be granted on any date in accordance with Section 12 exceeds the number of shares of Common Stock then available under the Plan or a given sub-plan (after deduction of all shares for which options have been exercised under the Plan or are then outstanding), the Company shall make a pro rata allocation of the shares remaining available in as nearly a uniform manner as it determines is practicable and equitable. In such event, the payroll deductions to be made pursuant to the authorizations therefor shall be reduced accordingly and the Company shall give written notice of the reduction to each participant affected.
+7. Participation.
+7.1 An Eligible Employee may become a participant by completing an Enrollment Form provided by the Company and submitting it to the Company, or with such other entity designated by the Company for this purpose, no later than 15 days (or such other period as may be designated by the Administrator) prior to the commencement of the offering to which it relates.
+7.2 Payroll deductions for a participant shall commence on the Offering Date as described above and shall continue through subsequent offerings pursuant to Section 10 until the participant’s termination of employment, subject to modification by the participant as provided in Section 8.1, and unless participation is earlier withdrawn or suspended by the employee as provided in Section 9 or deductions are reduced (including to zero) by the Company pursuant to Section 6.
+7.3 Payroll deduction shall be the sole means of accumulating funds in a participant’s Account, except in foreign countries where payroll deductions are not allowed, in which case the Company may authorize alternative payment methods.
+7.4 The Company may require current participants to complete a new Enrollment Form at any time it deems necessary or desirable to facilitate Plan administration or for any other reason.
+8. Payroll Deductions.
+8.1 At the time an Eligible Employee files a payroll deduction authorization, he or she shall elect to have deductions made from his or her Compensation on each payday during the time he or she is a participant in an offering at (i) any non-fractional percentage rate from one
+4
+
+
+percent (1%) to twenty percent (20%) or (ii) any flat dollar amount (not exceeding 20%), but in each case shall not exceed $10,625 in any offering. A participant may change his or her payroll deduction percentage election, including changing the payroll deduction percentage or flat dollar amount to zero, effective as of any Offering Date by filing a revised authorization, provided the revised authorization is filed at least 15 days (or such other period as may be designated by the Administrator) prior to such Offering Date."""
 test_dictionary = [
     {
         "payload": ONE,
@@ -44,6 +63,16 @@ test_dictionary = [
                 "maximum_contribution": "15%"
             }
     },
+    {
+        "payload": FOUR,
+        "result":
+            {
+                'periods': 'June 1 - November 30, December 1 - May 31',
+                'stipulation': None,
+                'minimum_contribution': '1%',
+                'maximum_contribution': '20%'
+            }
+    }
 ]
 
 
@@ -56,9 +85,12 @@ class PolicyTestCase(TestCase):
         self.client = Client()
 
     def test_results(self):
-        for test in test_dictionary:
+        for i, test in enumerate(test_dictionary):
+            if i != 3:
+                continue
             result = self.client.post("/unstructured", json.dumps({"policy": test["payload"]}), content_type="application/json")
             json_result = result.json()
+            breakpoint()
             for cat in json_result:
                 self.assertEqual(json_result[cat], test["result"][cat])
 

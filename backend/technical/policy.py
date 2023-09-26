@@ -127,6 +127,7 @@ class Policy:
     def _locate_compensation(self, sentence):
         limits = [("minimum_contribution", "not less than"), ("maximum_contribution", "not more than"),
                   ("maximum_contribution", "not exceed")]
+        potential_value = self._find_value(sentence)
         for limit in limits:
             loc = sentence.find(limit[1])
             if loc > -1:
@@ -139,6 +140,15 @@ class Policy:
                         self.result[limit[0]] = value
                     elif value:
                         self.result[limit[0]] += f" or {value}"
+        if not self.result[limits[0][0]] and self.result["maximum_contribution"] \
+                and potential_value not in self.result["maximum_contribution"]:
+            self._check_for_minimum(potential_value)
+
+    def _check_for_minimum(self, potential_value):
+        potential = int(''.join([i for i in potential_value if i.isdigit()]))
+        maximum = int(''.join([i for i in self.result['maximum_contribution'] if i.isdigit()]))
+        if potential < maximum:
+            self.result["minimum_contribution"] = potential_value
 
     @staticmethod
     def _find_value(fragment):
@@ -146,6 +156,4 @@ class Policy:
         if not value:
             p = re.compile(r'\$?(?:(?:[1-9][0-9]{0,2})(?:,[0-9]{3})+|[1-9][0-9]*|0)(?:[\.,][0-9][0-9]?)?(?![0-9]+)')
             value = re.search(p, fragment)
-        if value:
-            return value.group()
-        return None
+        return value.group() if value else None
