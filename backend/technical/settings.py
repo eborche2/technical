@@ -32,7 +32,6 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5005',
     'http://142.93.79.68:5005'
-    'http://142.93.79.68.nip.io:5005'
 ]
 
 # Application definition
