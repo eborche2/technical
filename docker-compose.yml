@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  api:
+    container_name: backend
+    stdin_open: true
+    tty: true
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    image: backend
+    networks:
+      - frontend_backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8005:8005"
+    command: ./manage.py runserver 0.0.0.0:8005
+    environment:
+      - GOOGLE_ID=${GOOGLE_ID}
+      - GOOGLE_SECRET=${GOOGLE_SECRET}
+      - OAUTHLIB_INSECURE_TRANSPORT=1
+  react:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    user: $WEB_UID:$WEB_GID
+    image: frontend
+    networks:
+      - frontend_backend
+    volumes:
+      - ./frontend/technical:/app
+    ports:
+      - "5005:5005"
+    command: npm run dockerDevStart
+networks:
+  frontend_backend:
+    name: frontend_backend
+    driver: bridge
