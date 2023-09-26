@@ -147,6 +147,7 @@ function App() {
               Login with Google
             </Button>
           )}
+          {loggingIn && <Spinner/>}
           {loggedIn && userName && <div>Welcome {userName}!</div>}
           {loggedIn && (
             <Button colorScheme="blue" onClick={logout}>

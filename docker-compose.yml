@@ -18,6 +18,7 @@ services:
     environment:
       - OAUTHLIB_INSECURE_TRANSPORT=1
       - LOGIN_URL=http://localhost:8005/logged_in
+      - FRONTEND_URL=http://localhost:5005
   react:
     container_name: frontend
     build:

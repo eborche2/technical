@@ -130,3 +130,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = os.getenv('LOGIN_URL', 'http://localhost:8005/logged_in')
+FRONTEND_URL = os.getenv('FRONTEND_URL', "http://localhost:5005")

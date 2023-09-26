@@ -60,7 +60,7 @@ def logged_in(request):
     credentials = flow.credentials
     request.session['credentials'] = credentials_to_dict(credentials)
     request.session.modified = True
-    return redirect("http://localhost:5005")
+    return redirect(settings.FRONTEND_URL)
 
 
 @require_http_methods(["GET"])
