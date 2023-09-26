@@ -78,5 +78,9 @@ def user_info(request):
 def unstructured(request):
     policy_string = json.loads(request.body)['policy']
     policy = Policy(policy_string)
-    data = policy.review_policy()
+    try:
+        data = policy.review_policy()
+    except Exception as e:
+        print(e)
+        data = policy.get_result()
     return JsonResponse(data)

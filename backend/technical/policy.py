@@ -24,6 +24,9 @@ class Policy:
             "maximum_contribution": None
         }
 
+    def get_result(self):
+        return self.result
+
     def review_policy(self):
         sections = self.policy.split('\n')
         for section in sections:
