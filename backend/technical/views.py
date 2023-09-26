@@ -3,10 +3,12 @@ import google_auth_oauthlib.flow
 from googleapiclient.discovery import build
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import redirect
+from django.conf import settings
 from django.http import JsonResponse
 from .policy import Policy
 import json
 
+""" The code at the top is from Google's documentation"""
 # Use the client_secret.json file to identify the application requesting
 # authorization. The client ID (from that file) and access scopes are required.
 flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
@@ -19,7 +21,7 @@ flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
 # match one of the authorized redirect URIs for the OAuth 2.0 client, which you
 # configured in the API Console. If this value doesn't match an authorized URI,
 # you will get a 'redirect_uri_mismatch' error.
-flow.redirect_uri = 'http://localhost:8005/logged_in'
+flow.redirect_uri = settings.LOGIN_URL
 
 # Generate URL for request to Google's OAuth 2.0 server.
 # Use kwargs to set optional request parameters.
@@ -39,6 +41,12 @@ def credentials_to_dict(credentials):
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes}
 
+
+"""
+I use DRF(Django Rest Framework) in practice. I didn't use any models here and therefore didn't need the serialization
+and other tools that it provides. I relied on basic Django to keep it simple.
+Note: I didn't implement SSL due to the nature of the task, but it would be a must in production.
+"""
 
 @require_http_methods(["GET"])
 def login(request):

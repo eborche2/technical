@@ -85,6 +85,9 @@ class PolicyTestCase(TestCase):
         self.client = Client()
 
     def test_results(self):
+        """
+        I prefer to test endpoint completely.
+        """
         for i, test in enumerate(test_dictionary):
             result = self.client.post("/unstructured", json.dumps({"policy": test["payload"]}), content_type="application/json")
             json_result = result.json()

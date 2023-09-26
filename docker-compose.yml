@@ -16,9 +16,8 @@ services:
       - "8005:8005"
     command: ./manage.py runserver 0.0.0.0:8005
     environment:
-      - GOOGLE_ID=${GOOGLE_ID}
-      - GOOGLE_SECRET=${GOOGLE_SECRET}
       - OAUTHLIB_INSECURE_TRANSPORT=1
+      - LOGIN_URL=http://localhost:8005/logged_in
   react:
     container_name: frontend
     build:
@@ -33,6 +32,8 @@ services:
     ports:
       - "5005:5005"
     command: npm run dockerDevStart
+    environment:
+      - REACT_APP_BACKEND_ROUTE=http://localhost:8005
 networks:
   frontend_backend:
     name: frontend_backend

@@ -15,6 +15,13 @@ section_identifiers = {
 
 
 class Policy:
+    """
+    This is a basic class to handle a very lightweight approach. Instead of NLP or machine learning, I utilized
+    a simple algorithm. In my experience, those solutions will eventually, after a lot of work, provide better results, but
+    NLP and machine learning are also heavily resource dependent and this task being web centered, I opted for
+    this simple appraoch.
+    I tested this with a couple of other Policies from the SEC website and performed well.
+    """
     def __init__(self, policy):
         self.policy = policy
         self.result = {

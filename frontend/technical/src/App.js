@@ -17,8 +17,17 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const baseUrl = "http://localhost:8005";
-
+let baseUrl = "http://localhost:8005";
+if (process.env.REACT_APP_BACKEND_ROUTE) {
+  baseUrl = process.env.REACT_APP_BACKEND_ROUTE;
+}
+/**
+  This is bootstrapped using create-react-app
+  I've been using Typescript mostly, but opted for a very simple react application.
+  I'm using the Charka library here for basic components.
+  I also didn't use a store, because it just wasn't needed.
+  I generally break the store, api, constants, and shared components out and the do folders by page/component.
+ **/
 function App() {
   const [loggingIn, setLoggingIn] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -132,8 +141,10 @@ function App() {
         <img src={logo} className="App-logo Box" alt="logo" />
         <div className="Box">
           {!loggingIn && !loggedIn && (
-            <Button colorScheme="blue" onClick={login}>
-              Login
+            <Button onClick={login} role="button" className="Link">
+              <img width="20px" className="Image" alt="Google sign-in"
+                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+              Login with Google
             </Button>
           )}
           {loggedIn && userName && <div>Welcome {userName}!</div>}
@@ -142,7 +153,7 @@ function App() {
               Logout
             </Button>
           )}
-          <Divider className="Divider" />
+          {loggedIn && <Divider className="Divider" />}
           {loggedIn && (
             <div>
               <h5>Policy</h5>

@@ -128,5 +128,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GOOGLE_ID = os.getenv('GOOGLE_ID', None)
-GOOGLE_SECRET = os.getenv('GOOGLE_SECRET', None)
+LOGIN_URL = os.getenv('LOGIN_URL', 'http://localhost:8005/logged_in')
