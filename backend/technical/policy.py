@@ -24,6 +24,8 @@ class Policy:
     """
     def __init__(self, policy):
         self.policy = policy
+        # I would break this down as a model. Saving periods independently.
+        # The stipulation would become rules. It could then be used to get specific dates and implemented as filters.
         self.result = {
             "periods": None,
             "stipulation": None,
